@@ -21,19 +21,20 @@ jobs:
         #java-version: 21
         #distribution: 'zulu' # Alternative distribution options are available. 
 
-      - name: Build and analyze SONAR
-        env:
+      #- name: Build and analyze SONAR
+        #env:
           #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -DskipTests=true -Dsonar.projectKey=ruslan8424_incognito-api-public  
-        working-directory: ./incongnito-api 
+          #SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        #run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -DskipTests=true -Dsonar.projectKey=ruslan8424_incognito-api-public  
+        #working-directory: ./incongnito-api 
+
+      - name: Build the Docker image
+        run: docker build  -t ${{ secrets.DOCKERHUB_USERNAME }}/incognito-api-public:${{ github.sha }} . 
+
 
       - name: Docker Login 
         run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }} 
       #uses:docker/login-action@v1
-
-      - name: Build the Docker image
-        run: docker build  -t ${{ secrets.DOCKERHUB_USERNAME }}/incognito-api-public:${{ github.sha }} . 
 
       - name: Docker Push
         run: docker push  ${{ secrets.DOCKERHUB_USERNAME }}/incognito-api-public:${{ github.sha }}
