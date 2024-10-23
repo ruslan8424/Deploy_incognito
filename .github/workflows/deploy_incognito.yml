@@ -29,7 +29,7 @@ jobs:
         #working-directory: ./incongnito-api 
 
       - name: Build the Docker image
-        run: docker build  -t ${{ secrets.DOCKERHUB_USERNAME }}/incognito-api-public:${{ github.sha }} . 
+        run: docker build  -t ${{ secrets.DOCKERHUB_USERNAME }} incognito-api-public:${{ github.sha }} . 
 
 
       - name: Docker Login 
